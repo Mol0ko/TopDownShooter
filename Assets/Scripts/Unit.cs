@@ -41,13 +41,16 @@ namespace TopDownShooter.Units
         private void OnMoveUpdate()
         {
             ref var movement = ref _input.MoveDirection;
-            _animator.SetFloat("ForwardMove", movement.z);
-            _animator.SetFloat("SideMove", movement.x);
             var moving = movement.x != 0 || movement.z != 0;
             _animator.SetBool("Moving", moving);
             if (moving)
-                transform.position += transform.TransformVector(movement) *
+            {
+                var rotatedMovement = Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.down) * movement;
+                _animator.SetFloat("ForwardMove", rotatedMovement.z);
+                _animator.SetFloat("SideMove", rotatedMovement.x);
+                transform.position += movement *
                     _stats.MoveSpeed * Time.deltaTime;
+            }
         }
 
         private void OnAttack(AttackType attackType)

@@ -19,15 +19,7 @@ namespace TopDownShooter.Units.Player
         {
             var direction = _controls.Unit.Move.ReadValue<Vector2>();
             Movement = new Vector3(direction.x, 0f, direction.y);
-            var worldMousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.);
-            RaycastHit hit;
-            if (Physics.Raycast(worldMousePos, out hit, Mathf.Infinity))
-            {
-                var lookPos = hit.point - transform.position;
-                lookPos.y = 0;
-                var rotation = Quaternion.LookRotation(lookPos);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 0.1f);
-            }
+            UpdateLookAtMouse();
         }
 
         private void OnEnable()
@@ -49,5 +41,18 @@ namespace TopDownShooter.Units.Player
 
         private void OnShoot(InputAction.CallbackContext obj) =>
             CallOnAttackEvent(AttackType.Shoot);
+
+        private void UpdateLookAtMouse()
+        {
+            var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                var lookPos = hit.point - transform.position;
+                lookPos.y = 0;
+                var rotation = Quaternion.LookRotation(lookPos);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 1000f);
+            }
+        }
     }
 }
