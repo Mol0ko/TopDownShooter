@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TopDownShooter.Extensions;
 using UnityEngine;
 
@@ -7,8 +8,14 @@ namespace TopDownShooter.Units
     {
         [SerializeField]
         private UnitStats _stats;
+        [SerializeField]
+        private Transform _gunMuzzle;
+        [SerializeField]
+        private GameObject _bulletPrefab;
+
         private Animator _animator;
         private UnitInputComponent _input;
+        private Queue<GameObject> _bullets = new Queue<GameObject>();
 
         #region Lifecycle
 
@@ -55,8 +62,15 @@ namespace TopDownShooter.Units
 
         private void OnAttack(AttackType attackType)
         {
-            var animationName = attackType.ToString();
-            _animator.SetTrigger(animationName);
+            if (!_animator.GetBool("Moving"))
+            {
+                var animationName = attackType.ToString();
+                _animator.SetTrigger(animationName);
+            }
+            var bullet = Instantiate(_bulletPrefab, _gunMuzzle);
+            _bullets.Enqueue(bullet);
+            if (_bullets.Count > 50)
+                Destroy(_bullets.Dequeue());
         }
     }
 }
