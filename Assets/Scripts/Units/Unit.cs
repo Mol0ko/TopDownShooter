@@ -67,7 +67,7 @@ namespace TopDownShooter.Units
                 var animationName = attackType.ToString();
                 _animator.SetTrigger(animationName);
             }
-            var bullet = Instantiate(_bulletPrefab, _gunMuzzle);
+            var bullet = Instantiate(_bulletPrefab, _gunMuzzle.position, _gunMuzzle.rotation);
             _bullets.Enqueue(bullet);
             if (_bullets.Count > 50)
                 Destroy(_bullets.Dequeue());

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,16 +8,40 @@ namespace TopDownShooter.Units.Player
     public class EnemyInputComponent : UnitInputComponent
     {
         [SerializeField]
-        private Transform _playerTarget;
+        private Transform _target;
 
         #region Config
 
         private AttackType _attackType = AttackType.Shoot;
         private float _seekRadius = 10f;
+        private float _attackDelaySeconds = 1f;
+        private float _reaction = 10f;
+
+        private bool _isTargetCaught
+        {
+            get
+            {
+                var result = false;
+                if (_target != null)
+                {
+                    var distanceToPlayer = Vector3.Distance(
+                        transform.position,
+                        _target.transform.position
+                    );
+                    result = distanceToPlayer <= _seekRadius;
+                }
+                return result;
+            }
+        }
 
         #endregion
 
         #region Lifecycle
+
+        private void Start()
+        {
+            StartCoroutine(ShootRoutine());
+        }
 
         private void Update()
         {
@@ -34,21 +59,26 @@ namespace TopDownShooter.Units.Player
 
         #endregion
 
-
-        private void OnShoot(InputAction.CallbackContext obj) =>
-            CallOnAttackEvent(_attackType);
-
         private void UpdateLookAtTarget()
         {
-            if (_playerTarget == null)
-                return;
-
-            var playerPos = _playerTarget.transform.position;
-            var distanceToPlayer = Vector3.Distance(transform.position, playerPos);
-            if (distanceToPlayer <= _seekRadius)
+            if (_isTargetCaught)
             {
-                var rotation = Quaternion.LookRotation(playerPos - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 1000f);
+                var rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _reaction);
+            }
+        }
+
+        private IEnumerator ShootRoutine()
+        {
+            while (true)
+            {
+                if (_isTargetCaught)
+                {
+                    yield return new WaitForSeconds(_attackDelaySeconds);
+                    CallOnAttackEvent(_attackType);
+                }
+                else
+                    yield return null;
             }
         }
     }
