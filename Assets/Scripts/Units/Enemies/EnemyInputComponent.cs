@@ -97,28 +97,36 @@ namespace TopDownShooter.Units.Player
             var routePointIndex = 0;
             while (true)
             {
-                var currentIndex = routePointIndex % _routePoints.Length;
-                var destinationPoint = _routePoints[currentIndex];
-                var distanceToPoint = Vector3.Distance(transform.position, destinationPoint.position);
-                if (distanceToPoint < 0.5f)
+                if (_isTargetCaught)
                 {
                     Movement = Vector3.zero;
-                    routePointIndex++;
-                    yield return new WaitForSeconds(_idleTimeSeconds);
+                    yield return null;
                 }
                 else
                 {
-                    var rotation = Quaternion.LookRotation(destinationPoint.position - transform.position);
-                    var shouldRotateToPoint = Vector3.Distance(transform.rotation.eulerAngles, rotation.eulerAngles) > 2;
-                    if (shouldRotateToPoint)
+                    var currentIndex = routePointIndex % _routePoints.Length;
+                    var destinationPoint = _routePoints[currentIndex];
+                    var distanceToPoint = Vector3.Distance(transform.position, destinationPoint.position);
+                    if (distanceToPoint < 0.5f)
                     {
-                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _reaction);
-                        yield return null;
+                        Movement = Vector3.zero;
+                        routePointIndex++;
+                        yield return new WaitForSeconds(_idleTimeSeconds);
                     }
                     else
                     {
-                        Movement = Vector3.Normalize(destinationPoint.position - transform.position);
-                        yield return null;
+                        var rotation = Quaternion.LookRotation(destinationPoint.position - transform.position);
+                        var shouldRotateToPoint = Vector3.Distance(transform.rotation.eulerAngles, rotation.eulerAngles) > 2;
+                        if (shouldRotateToPoint)
+                        {
+                            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _reaction);
+                            yield return null;
+                        }
+                        else
+                        {
+                            Movement = Vector3.Normalize(destinationPoint.position - transform.position);
+                            yield return null;
+                        }
                     }
                 }
             }

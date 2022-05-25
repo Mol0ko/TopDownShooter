@@ -17,6 +17,8 @@ namespace TopDownShooter.Units
         private UnitInputComponent _input;
         private Queue<GameObject> _bullets = new Queue<GameObject>();
 
+        private bool isDead => _stats.HpCurrent <= 0;
+
         #region Lifecycle
 
         protected virtual void Start()
@@ -43,10 +45,22 @@ namespace TopDownShooter.Units
             }
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("[TRIGGER] " + gameObject.name + " triggered with " + other.gameObject.name);
+            if (other.gameObject.tag == "Bullet")
+            {
+                _stats.HpCurrent--;
+                if (isDead)
+                    OnDeath();
+            }
+        }
+
         #endregion
 
         private void OnMoveUpdate()
         {
+            if (isDead) return;
             ref var movement = ref _input.MoveDirection;
             var moving = movement.x != 0 || movement.z != 0;
             _animator.SetBool("Moving", moving);
@@ -62,6 +76,7 @@ namespace TopDownShooter.Units
 
         private void OnAttack(AttackType attackType)
         {
+            if (isDead) return;
             if (!_animator.GetBool("Moving"))
             {
                 var animationName = attackType.ToString();
@@ -71,6 +86,11 @@ namespace TopDownShooter.Units
             _bullets.Enqueue(bullet);
             if (_bullets.Count > 50)
                 Destroy(_bullets.Dequeue());
+        }
+
+        private void OnDeath()
+        {
+            _animator.SetTrigger("Death");
         }
     }
 }

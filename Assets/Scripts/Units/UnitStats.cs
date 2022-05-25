@@ -7,5 +7,7 @@ namespace TopDownShooter.Units
     {
         public float MoveSpeed;
         public Side Side;
+        public float HpFull;
+        public float HpCurrent;
     }
 }
