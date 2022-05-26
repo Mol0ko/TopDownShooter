@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 3
   Side: 0
+  Hp: 10

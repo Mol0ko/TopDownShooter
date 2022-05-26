@@ -6,7 +6,6 @@ namespace TopDownShooter.Units
     {
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Bullet triggered with " + other.gameObject.name);
             Destroy(this.gameObject);
         }
     }

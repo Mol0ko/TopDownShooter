@@ -7,7 +7,11 @@ namespace TopDownShooter.Units
     public abstract class Unit : MonoBehaviour
     {
         [SerializeField]
+        private UnitStatsPreset _statsPreset;
+        [SerializeField, ReadOnly]
         private UnitStats _stats;
+        [SerializeField]
+        private HpBar _hpBar;
         [SerializeField]
         private Transform _gunMuzzle;
         [SerializeField]
@@ -17,9 +21,21 @@ namespace TopDownShooter.Units
         private UnitInputComponent _input;
         private Queue<GameObject> _bullets = new Queue<GameObject>();
 
-        private bool isDead => _stats.HpCurrent <= 0;
+        private bool _isDead => _stats.HpCurrent <= 0;
+
+        private float _hpFillAmount => _stats.HpCurrent / _stats.HpFull;
 
         #region Lifecycle
+
+        private void Awake()
+        {
+            _stats = new UnitStats(_statsPreset);
+        }
+
+        private void OnValidate()
+        {
+            _stats = new UnitStats(_statsPreset);
+        }
 
         protected virtual void Start()
         {
@@ -48,10 +64,11 @@ namespace TopDownShooter.Units
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("[TRIGGER] " + gameObject.name + " triggered with " + other.gameObject.name);
-            if (other.gameObject.tag == "Bullet")
+            if (other.gameObject.tag == "Bullet" && !_isDead)
             {
                 _stats.HpCurrent--;
-                if (isDead)
+                _hpBar.SetFillAmount(_hpFillAmount);
+                if (_isDead)
                     OnDeath();
             }
         }
@@ -60,7 +77,7 @@ namespace TopDownShooter.Units
 
         private void OnMoveUpdate()
         {
-            if (isDead) return;
+            if (_isDead) return;
             ref var movement = ref _input.MoveDirection;
             var moving = movement.x != 0 || movement.z != 0;
             _animator.SetBool("Moving", moving);
@@ -70,13 +87,13 @@ namespace TopDownShooter.Units
                 _animator.SetFloat("ForwardMove", rotatedMovement.z);
                 _animator.SetFloat("SideMove", rotatedMovement.x);
                 transform.position += movement *
-                    _stats.MoveSpeed * Time.deltaTime;
+                    _statsPreset.MoveSpeed * Time.deltaTime;
             }
         }
 
         private void OnAttack(AttackType attackType)
         {
-            if (isDead) return;
+            if (_isDead) return;
             if (!_animator.GetBool("Moving"))
             {
                 var animationName = attackType.ToString();
@@ -90,6 +107,9 @@ namespace TopDownShooter.Units
 
         private void OnDeath()
         {
+            Debug.Log($"{this.name} is dead");
+            _input.StopAllCoroutines();
+            _input.enabled = false;
             _animator.SetTrigger("Death");
         }
     }
