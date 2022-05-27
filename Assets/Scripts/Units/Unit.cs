@@ -9,7 +9,7 @@ namespace TopDownShooter.Units
         [SerializeField]
         private UnitStatsPreset _statsPreset;
         [SerializeField, ReadOnly]
-        private UnitStats _stats;
+        protected UnitStats _stats;
         [SerializeField]
         private HpBar _hpBar;
         [SerializeField]
@@ -21,7 +21,7 @@ namespace TopDownShooter.Units
         private UnitInputComponent _input;
         private Queue<GameObject> _bullets = new Queue<GameObject>();
 
-        private bool _isDead => _stats.HpCurrent <= 0;
+        protected bool _isDead => _stats.HpCurrent <= 0;
 
         private float _hpFillAmount => _stats.HpCurrent / _stats.HpFull;
 
@@ -61,7 +61,7 @@ namespace TopDownShooter.Units
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected void OnTriggerEnter(Collider other)
         {
             Debug.Log("[TRIGGER] " + gameObject.name + " triggered with " + other.gameObject.name);
             if (other.gameObject.tag == "Bullet" && !_isDead)
