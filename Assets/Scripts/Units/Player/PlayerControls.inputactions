@@ -92,6 +92,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "SafeOpen",
+            "id": "5ebe3b4f-ff52-467c-ac44-01d900d96e05",
+            "actions": [
+                {
+                    "name": "Push",
+                    "type": "Button",
+                    "id": "9bfd9023-09a4-43eb-af72-1f2ff488cb14",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e9183446-2246-4412-b6d4-bc5e540bbb40",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Push",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

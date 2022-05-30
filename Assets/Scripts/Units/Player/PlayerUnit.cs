@@ -1,3 +1,4 @@
+using TopDownShooter.Environment;
 using TopDownShooter.Extensions;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ namespace TopDownShooter.Units
 {
     public class PlayerUnit : Unit
     {
+        [SerializeField]
+        private SafeOpenGame _safeGame;
         [SerializeField, ReadOnly]
         private int coinsCollected = 0;
 
@@ -15,6 +18,10 @@ namespace TopDownShooter.Units
             {
                 Destroy(other.gameObject);
                 coinsCollected++;
+            }
+            else if (other.gameObject.tag == "Safe" && !_isDead)
+            {
+                _safeGame.StartGame();
             }
         }
     }
