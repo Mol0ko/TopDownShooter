@@ -1,8 +1,13 @@
+using System.Collections;
+using TopDownShooter.Extensions;
+using TopDownShooter.Units.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace TopDownShooter.Environment
 {
+    [RequireComponent(typeof(PlayerInputComponent))]
     public class SafeOpenGame : MonoBehaviour
     {
         [SerializeField]
@@ -13,11 +18,22 @@ namespace TopDownShooter.Environment
         private float _passSectorAngle = 25f;
         [SerializeField, Tooltip("Количество попыток для взлома")]
         private int _maxAttempts = 5;
-
+        [SerializeField]
+        private GameObject _winTextObject;
+        [SerializeField]
+        private GameObject _failTextObject;
+        [SerializeField]
+        private Text _attemptsLeftText;
+        [SerializeField]
+        private PlayerInputComponent _playerInput;
         /// <summary>Центр сектора взлома (в градусах)</summary>
+        [SerializeField, ReadOnly]
         private float _passSectorCenter = 180f;
+        [SerializeField, ReadOnly]
         private int _attemptsLeft = 5;
-        private PlayerControls _controls;
+
+        private PlayerControls _playerControls;
+        private SafeComponent _safe;
 
         //region Lifecycle
 
@@ -25,7 +41,11 @@ namespace TopDownShooter.Environment
         {
             _passSectorCenter = Random.Range(0f, 360f);
             _attemptsLeft = _maxAttempts;
-            _controls = new PlayerControls();
+        }
+
+        private void Start()
+        {
+            _playerControls = _playerInput.Controls;
         }
 
         private void Update()
@@ -33,13 +53,21 @@ namespace TopDownShooter.Environment
             UpdateMouseRotation();
         }
 
+        private void OnDisable()
+        {
+            _playerControls.SafeOpen.Disable();
+        }
+
         //endregion
 
-        public void StartGame()
+        public void StartGame(SafeComponent safe)
         {
-            _controls.Unit.Disable();
-            _controls.SafeOpen.Push.performed += OnPush;
+            _safe = safe;
+            _playerControls.Unit.Disable();
+            _playerControls.SafeOpen.Enable();
+            _playerControls.SafeOpen.Push.performed += OnPush;
             _gameCanvas.SetActive(true);
+            _attemptsLeft = _maxAttempts;
         }
 
         //region Private methods
@@ -58,9 +86,10 @@ namespace TopDownShooter.Environment
 
         private void OnPush(InputAction.CallbackContext obj)
         {
-            var pushAngle = _holeCenter.transform.rotation.z;
+            var pushAngle = _holeCenter.transform.rotation.eulerAngles.z;
             var passAngleMin = _passSectorCenter - _passSectorAngle * 0.5f;
             var passAngleMax = _passSectorCenter + _passSectorAngle * 0.5f;
+            Debug.Log($"PUSHED ANGLE: {pushAngle}\nEXPECTED ANGLES: {passAngleMin}-{passAngleMax}");
             if (pushAngle >= passAngleMin && pushAngle <= passAngleMax)
                 OnWin();
             else
@@ -70,10 +99,13 @@ namespace TopDownShooter.Environment
         private void OnWin()
         {
             Debug.Log("WIN SAFE GAME");
-            _gameCanvas.SetActive(false);
-            _controls.Unit.Enable();
-            _controls.SafeOpen.Push.performed -= OnPush;
-            //TODO: game over
+            _playerControls.Unit.Enable();
+            _playerControls.SafeOpen.Push.performed -= OnPush;
+            _safe?.Open();
+            // TODO: add safe loot
+            _failTextObject.SetActive(false);
+            StartCoroutine(ShowAndHideAfterDelay(_winTextObject));
+            StartCoroutine(ExitGameAfterDelay());
         }
 
         private void OnFail()
@@ -81,16 +113,33 @@ namespace TopDownShooter.Environment
             if (_attemptsLeft > 0)
             {
                 _attemptsLeft--;
+                _attemptsLeftText.text = _attemptsLeft.ToString();
+                StopAllCoroutines();
+                StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
                 Debug.Log("FAIL: attempts left " + _attemptsLeft.ToString());
             }
             else
             {
                 Debug.Log("LOOSE SAFE GAME");
-                _gameCanvas.SetActive(false);
-                _controls.Unit.Enable();
-                _controls.SafeOpen.Push.performed -= OnPush;
-                //TODO: game over
+                _playerControls.Unit.Enable();
+                _playerControls.SafeOpen.Push.performed -= OnPush;
+                StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
+                StartCoroutine(ExitGameAfterDelay());
             }
+        }
+
+        private IEnumerator ExitGameAfterDelay()
+        {
+            _playerControls.SafeOpen.Disable();
+            yield return new WaitForSeconds(2f);
+            _gameCanvas.SetActive(false);
+        }
+
+        private IEnumerator ShowAndHideAfterDelay(GameObject go)
+        {
+            go.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            go.SetActive(false);
         }
 
         //endregion

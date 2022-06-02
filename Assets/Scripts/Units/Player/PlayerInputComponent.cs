@@ -5,36 +5,36 @@ namespace TopDownShooter.Units.Player
 {
     public class PlayerInputComponent : UnitInputComponent
     {
-        private PlayerControls _controls;
+        public PlayerControls Controls { get; private set; }
 
         #region Lifecycle
 
         private void Awake()
         {
-            _controls = new PlayerControls();
-            _controls.Unit.Attack.performed += OnShoot;
+            Controls = new PlayerControls();
+            Controls.Unit.Attack.performed += OnShoot;
         }
 
         void Update()
         {
-            var direction = _controls.Unit.Move.ReadValue<Vector2>();
+            var direction = Controls.Unit.Move.ReadValue<Vector2>();
             Movement = new Vector3(direction.x, 0f, direction.y);
             UpdateLookAtMouse();
         }
 
         private void OnEnable()
         {
-            _controls.Unit.Enable();
+            Controls.Unit.Enable();
         }
 
         private void OnDisable()
         {
-            _controls.Unit.Disable();
+            Controls.Unit.Disable();
         }
         private void OnDestroy()
         {
-            _controls.Unit.Attack.performed -= OnShoot;
-            _controls.Dispose();
+            Controls.Unit.Attack.performed -= OnShoot;
+            Controls.Dispose();
         }
 
         #endregion

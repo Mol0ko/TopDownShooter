@@ -21,7 +21,8 @@ namespace TopDownShooter.Units
             }
             else if (other.gameObject.tag == "Safe" && !_isDead)
             {
-                _safeGame.StartGame();
+                var safe = other.gameObject.GetComponent<SafeComponent>();
+                _safeGame.StartGame(safe);
             }
         }
     }

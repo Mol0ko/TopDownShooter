@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 7921034704481502221}
   - component: {fileID: 3916535337533734745}
   - component: {fileID: 7637454912276068461}
+  - component: {fileID: -5556941168701933486}
   m_Layer: 0
   m_Name: Safe
   m_TagString: Untagged
@@ -141,6 +142,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 1b90c15c994b22a44b95004d041364b8, type: 2}
+  - {fileID: 2100000, guid: e2e451a29fafc418c9ee2d641182156b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,5 +191,18 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.327829, y: 3, z: 2.3007202}
-  m_Center: {x: 0, y: 1.5, z: 0.1503601}
+  m_Size: {x: 2.9048176, y: 3, z: 3.2633247}
+  m_Center: {x: 0.0020933151, y: 1.5, z: 0.29668617}
+--- !u!114 &-5556941168701933486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489845035242320081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08541883773ca455ab833a9b5c6d3ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shineSpeed: 1.7
