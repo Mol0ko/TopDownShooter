@@ -1,4 +1,5 @@
 using System.Linq;
+using TopDonShooter.DialogManager;
 using UnityEngine;
 
 namespace TopDownShooter.Environment
@@ -7,13 +8,15 @@ namespace TopDownShooter.Environment
     {
         [SerializeField, Range(1f, 5f)]
         private float _shineSpeed = 2.5f;
+        [SerializeField]
+        private SafeLoot _loot;
 
         private Material _shineMaterial;
         public bool Opened { get; private set; } = false;
 
         private bool _shineGrows = false;
 
-        public void Open()
+        public SafeLoot Open()
         {
             Opened = true;
             _shineMaterial.color = new Color(
@@ -22,6 +25,8 @@ namespace TopDownShooter.Environment
                 _shineMaterial.color.b,
                 0f
             );
+            DialogManager.Instance.ShowSafeLootDialog(_loot);
+            return _loot;
         }
 
         private void Awake()

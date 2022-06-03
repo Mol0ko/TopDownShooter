@@ -2,6 +2,7 @@ using System.Collections;
 using TopDownShooter.Extensions;
 using TopDownShooter.Units.Player;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -34,6 +35,7 @@ namespace TopDownShooter.Environment
 
         private PlayerControls _playerControls;
         private SafeComponent _safe;
+        private UnityAction<SafeLoot> _onGetLoot;
 
         //region Lifecycle
 
@@ -60,7 +62,7 @@ namespace TopDownShooter.Environment
 
         //endregion
 
-        public void StartGame(SafeComponent safe)
+        public void StartGame(SafeComponent safe, UnityAction<SafeLoot> onGetLoot)
         {
             _safe = safe;
             _playerControls.Unit.Disable();
@@ -68,6 +70,7 @@ namespace TopDownShooter.Environment
             _playerControls.SafeOpen.Push.performed += OnPush;
             _gameCanvas.SetActive(true);
             _attemptsLeft = _maxAttempts;
+            _onGetLoot = onGetLoot;
         }
 
         //region Private methods
@@ -101,7 +104,9 @@ namespace TopDownShooter.Environment
             Debug.Log("WIN SAFE GAME");
             _playerControls.Unit.Enable();
             _playerControls.SafeOpen.Push.performed -= OnPush;
-            _safe?.Open();
+            var loot = _safe?.Open();
+            if (loot != null)
+                _onGetLoot?.Invoke(loot);
             // TODO: add safe loot
             _failTextObject.SetActive(false);
             StartCoroutine(ShowAndHideAfterDelay(_winTextObject));

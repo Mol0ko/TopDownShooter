@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5356508329205806402}
   - component: {fileID: 8874417978144888716}
   - component: {fileID: -4636238741733555535}
-  - component: {fileID: -6677417886843186244}
   - component: {fileID: 4022399903765016788}
   m_Layer: 0
   m_Name: Bullet
@@ -112,19 +111,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-6677417886843186244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022856555198192576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48422e2a3d4df41559586c429c5b26f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 15
 --- !u!114 &4022399903765016788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3022856555198192576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de22d1d90598049f68065b4fa6b4c8a6, type: 3}
+  m_Script: {fileID: 11500000, guid: dbbd8c855a24246d3b0b91bfb42fb3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveSpeed: 15
+  damage: 1

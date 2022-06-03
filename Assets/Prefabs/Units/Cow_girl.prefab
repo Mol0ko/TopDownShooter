@@ -1818,15 +1818,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _statsPreset: {fileID: 11400000, guid: 5d23075a21fda40739f468eba5b60e66, type: 2}
-  _stats:
+  Stats:
     MoveSpeed: 3
     Side: 0
     HpFull: 10
     HpCurrent: 10
+  Weapon:
+    Name: 
+    Damage: 0
   _hpBar: {fileID: 8939120227871100783}
   _gunMuzzle: {fileID: 7187135464659722679}
-  _bulletPrefab: {fileID: 3022856555198192576, guid: 988362fa064f44cdc8ad56c680309c1f,
+  _bulletPrefab: {fileID: 4022399903765016788, guid: 988362fa064f44cdc8ad56c680309c1f,
     type: 3}
+  _safeGame: {fileID: 0}
+  coinsCollected: 0
 --- !u!1 &5095513868092162693
 GameObject:
   m_ObjectHideFlags: 0

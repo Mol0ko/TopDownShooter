@@ -1854,14 +1854,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _statsPreset: {fileID: 11400000, guid: 9ede1ad7f092442199dd20ea99aa2403, type: 2}
-  _stats:
+  Stats:
     MoveSpeed: 2
     Side: 1
     HpFull: 3
     HpCurrent: 3
+  Weapon:
+    Name: 
+    Damage: 0
   _hpBar: {fileID: 8517831807657971194}
   _gunMuzzle: {fileID: 6127211843833127000}
-  _bulletPrefab: {fileID: 3022856555198192576, guid: 988362fa064f44cdc8ad56c680309c1f,
+  _bulletPrefab: {fileID: 4022399903765016788, guid: 988362fa064f44cdc8ad56c680309c1f,
     type: 3}
 --- !u!114 &3559013335604376787
 MonoBehaviour:

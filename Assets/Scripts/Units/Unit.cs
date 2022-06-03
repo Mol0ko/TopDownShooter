@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TopDownShooter.Extensions;
+using TopDownShooter.Weapons;
 using UnityEngine;
 
 namespace TopDownShooter.Units
@@ -9,32 +10,33 @@ namespace TopDownShooter.Units
         [SerializeField]
         private UnitStatsPreset _statsPreset;
         [SerializeField, ReadOnly]
-        protected UnitStats _stats;
+        protected UnitStats Stats;
         [SerializeField]
         private HpBar _hpBar;
         [SerializeField]
         private Transform _gunMuzzle;
         [SerializeField]
-        private GameObject _bulletPrefab;
+        private BulletComponent _bulletPrefab;
 
+        protected IWeapon Weapon = new Rifle1();
         private Animator _animator;
         private UnitInputComponent _input;
         private Queue<GameObject> _bullets = new Queue<GameObject>();
 
-        protected bool _isDead => _stats.HpCurrent <= 0;
+        protected bool _isDead => Stats.HpCurrent <= 0;
 
-        private float _hpFillAmount => _stats.HpCurrent / _stats.HpFull;
+        private float _hpFillAmount => Stats.HpCurrent / Stats.HpFull;
 
         #region Lifecycle
 
         private void Awake()
         {
-            _stats = new UnitStats(_statsPreset);
+            Stats = new UnitStats(_statsPreset);
         }
 
         private void OnValidate()
         {
-            _stats = new UnitStats(_statsPreset);
+            Stats = new UnitStats(_statsPreset);
         }
 
         protected virtual void Start()
@@ -66,7 +68,8 @@ namespace TopDownShooter.Units
             Debug.Log("[TRIGGER] " + gameObject.name + " triggered with " + other.gameObject.name);
             if (other.gameObject.tag == "Bullet" && !_isDead)
             {
-                _stats.HpCurrent--;
+                var bullet = other.gameObject.GetComponent<BulletComponent>();
+                Stats.HpCurrent -= bullet.Damage;
                 _hpBar.SetFillAmount(_hpFillAmount);
                 if (_isDead)
                     OnDeath();
@@ -100,7 +103,8 @@ namespace TopDownShooter.Units
                 _animator.SetTrigger(animationName);
             }
             var bullet = Instantiate(_bulletPrefab, _gunMuzzle.position, _gunMuzzle.rotation);
-            _bullets.Enqueue(bullet);
+            bullet.Damage = Weapon.Damage;
+            _bullets.Enqueue(bullet.gameObject);
             if (_bullets.Count > 50)
                 Destroy(_bullets.Dequeue());
         }
