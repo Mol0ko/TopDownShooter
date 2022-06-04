@@ -72,7 +72,11 @@ namespace TopDownShooter.Units
                 Stats.HpCurrent -= bullet.Damage;
                 _hpBar.SetFillAmount(_hpFillAmount);
                 if (_isDead)
+                {
                     OnDeath();
+                    if (Stats.Side == Side.Enemy)
+                        GameManager.Instance.OnKillEnemy();
+                }
             }
         }
 

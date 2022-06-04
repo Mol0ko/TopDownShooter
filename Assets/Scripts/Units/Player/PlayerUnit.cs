@@ -1,5 +1,4 @@
 using TopDownShooter.Environment;
-using TopDownShooter.Extensions;
 using UnityEngine;
 
 namespace TopDownShooter.Units
@@ -8,8 +7,6 @@ namespace TopDownShooter.Units
     {
         [SerializeField]
         private SafeOpenGame _safeGame;
-        [SerializeField, ReadOnly]
-        private int coinsCollected = 0;
 
         protected new void OnTriggerEnter(Collider other)
         {
@@ -17,7 +14,7 @@ namespace TopDownShooter.Units
             if (other.gameObject.tag == "Coin" && !_isDead)
             {
                 Destroy(other.gameObject);
-                coinsCollected++;
+                GameManager.Instance.OnGetCoins(1);
             }
             else if (other.gameObject.tag == "Safe" && !_isDead)
             {
@@ -29,7 +26,7 @@ namespace TopDownShooter.Units
         private void GetSafeLoot(SafeLoot loot)
         {
             if (loot.Coins > 0)
-                coinsCollected += loot.Coins;
+                GameManager.Instance.OnGetCoins(loot.Coins);
 
             if (loot.HpRegen > 0)
                 Stats.HpCurrent = Mathf.Max(

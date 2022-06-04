@@ -1,5 +1,5 @@
 using System.Linq;
-using TopDonShooter.DialogManager;
+using TopDonShooter.Dialogs;
 using UnityEngine;
 
 namespace TopDownShooter.Environment
@@ -25,6 +25,7 @@ namespace TopDownShooter.Environment
                 _shineMaterial.color.b,
                 0f
             );
+            GameManager.Instance.OnSafeOpen();
             DialogManager.Instance.ShowSafeLootDialog(_loot);
             return _loot;
         }
