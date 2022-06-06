@@ -1,4 +1,5 @@
 using TopDonShooter.Dialogs;
+using TopDownShooter.Environment;
 using TopDownShooter.Extensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,6 +39,7 @@ namespace TopDownShooter
 
         private void Awake()
         {
+            PlayerPrefs.DeleteAll();
             if (_instance != null)
                 Destroy(_instance.gameObject);
 
@@ -74,9 +76,17 @@ namespace TopDownShooter
             CheckIsLevelCompleted();
         }
 
-        public void OnSafeOpen()
+        public void OnSafeOpen(SafeLoot loot)
         {
             _safesOpenedOnLevel++;
+            if (loot.Coins > 0)
+                OnGetCoins(loot.Coins);
+
+            if (loot.WeaponNames.Length > 0)
+            {
+                // TODO: add weapons to collection
+                Debug.Log($"Weapons obtained: {string.Join(", ", loot.WeaponNames)}");
+            }
         }
 
         //endregion

@@ -1,4 +1,5 @@
 using System.Collections;
+using TopDonShooter.Dialogs;
 using TopDownShooter.Extensions;
 using TopDownShooter.Units.Player;
 using UnityEngine;
@@ -32,6 +33,8 @@ namespace TopDownShooter.Environment
         private float _passSectorCenter = 180f;
         [SerializeField, ReadOnly]
         private int _attemptsLeft = 5;
+        [SerializeField]
+        private Sprite _hintSprite;
 
         private PlayerControls _playerControls;
         private SafeComponent _safe;
@@ -64,13 +67,39 @@ namespace TopDownShooter.Environment
 
         public void StartGame(SafeComponent safe, UnityAction<SafeLoot> onGetLoot)
         {
-            _safe = safe;
-            _playerControls.Unit.Disable();
-            _playerControls.SafeOpen.Enable();
-            _playerControls.SafeOpen.Push.performed += OnPush;
-            _gameCanvas.SetActive(true);
-            _attemptsLeft = _maxAttempts;
-            _onGetLoot = onGetLoot;
+            if (safe.Opened)
+                return;
+
+            void Start()
+            {
+                DialogManager.Instance.CloseCurrentDialog();
+                _safe = safe;
+                _playerControls.Unit.Disable();
+                _playerControls.SafeOpen.Enable();
+                _playerControls.SafeOpen.Push.performed += OnPush;
+                _gameCanvas.SetActive(true);
+                _attemptsLeft = _maxAttempts;
+                _onGetLoot = onGetLoot;
+            }
+            if (PlayerPrefs.GetInt(PlayerPrefsKeys.SAFE_GAME_HINT_WATCHED) == 0)
+            {
+                var message = $"• Перемещайте курсор мыши, чтобы изменить позицию отмычки.\n" +
+                    "• Нажмите ЛКМ для попытки вскрыть сейф.\n" +
+                    "• У вас несколько попыток.";
+                var dialogData = new DialogData(
+                    "Вскрытие сейфов",
+                    message,
+                    _hintSprite,
+                    "ОК",
+                    Start,
+                    false);
+                DialogManager.Instance.ShowDialog(dialogData);
+                PlayerPrefs.SetInt(PlayerPrefsKeys.SAFE_GAME_HINT_WATCHED, 1);
+            }
+            else
+            {
+                Start();
+            }
         }
 
         //region Private methods
@@ -89,6 +118,9 @@ namespace TopDownShooter.Environment
 
         private void OnPush(InputAction.CallbackContext obj)
         {
+            if (_attemptsLeft <= 0)
+                return;
+
             var pushAngle = _holeCenter.transform.rotation.eulerAngles.z;
             var passAngleMin = _passSectorCenter - _passSectorAngle * 0.5f;
             var passAngleMax = _passSectorCenter + _passSectorAngle * 0.5f;
@@ -106,11 +138,15 @@ namespace TopDownShooter.Environment
             _playerControls.SafeOpen.Push.performed -= OnPush;
             var loot = _safe?.Open();
             if (loot != null)
-                _onGetLoot?.Invoke(loot);
+            {
+                _onGetLoot(loot);
+                GameManager.Instance.OnSafeOpen(loot);
+                DialogManager.Instance.ShowSafeLootDialog(loot);
+            }
             // TODO: add safe loot
             _failTextObject.SetActive(false);
-            StartCoroutine(ShowAndHideAfterDelay(_winTextObject));
-            StartCoroutine(ExitGameAfterDelay());
+            _playerControls.SafeOpen.Disable();
+            _gameCanvas.SetActive(false);
         }
 
         private void OnFail()
@@ -120,16 +156,19 @@ namespace TopDownShooter.Environment
                 _attemptsLeft--;
                 _attemptsLeftText.text = _attemptsLeft.ToString();
                 StopAllCoroutines();
-                StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
-                Debug.Log("FAIL: attempts left " + _attemptsLeft.ToString());
-            }
-            else
-            {
-                Debug.Log("LOOSE SAFE GAME");
-                _playerControls.Unit.Enable();
-                _playerControls.SafeOpen.Push.performed -= OnPush;
-                StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
-                StartCoroutine(ExitGameAfterDelay());
+                if (_attemptsLeft == 0)
+                {
+                    Debug.Log("LOOSE SAFE GAME");
+                    _playerControls.Unit.Enable();
+                    _playerControls.SafeOpen.Push.performed -= OnPush;
+                    StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
+                    StartCoroutine(ExitGameAfterDelay());
+                }
+                else
+                {
+                    Debug.Log("FAIL: attempts left " + _attemptsLeft.ToString());
+                    StartCoroutine(ShowAndHideAfterDelay(_failTextObject));
+                }
             }
         }
 

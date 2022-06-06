@@ -46,6 +46,7 @@ namespace TopDonShooter.Dialogs
                 _image.sprite = data.imageSprite;
             _actionButtonTitle.text = data.ButtonTitle;
             _buttonAction = data.ButtonAction;
+            _closeButton.gameObject.SetActive(data.ShowCloseButton);
             _dialogCanvas.SetActive(true);
         }
 
@@ -53,11 +54,11 @@ namespace TopDonShooter.Dialogs
         {
             var message = "Вы получили:\n";
             if (loot.Coins > 0)
-                message += $"\nМонеты: {loot.Coins}";
+                message += $"\n• Монеты: {loot.Coins}";
             if (loot.HpRegen > 0)
-                message += $"\nЕду, которая восстановила вам {loot.HpRegen} жизней";
+                message += $"\n• Еду, которая восстановила вам {loot.HpRegen} жизней";
             if (loot.WeaponNames.Length > 0)
-                message += $"Оружие: {string.Join(", ", loot.WeaponNames)}";
+                message += $"\n• Оружие: {string.Join(", ", loot.WeaponNames)}";
 
             var dialogData = new DialogData(
                 "Сейф открыт!",
@@ -65,12 +66,13 @@ namespace TopDonShooter.Dialogs
                 null,
                 "ОК",
                 CloseCurrentDialog);
-            
+            ShowDialog(dialogData);
         }
 
-        public void CloseCurrentDialog()
-        {
+        public void CloseCurrentDialog() =>
             _dialogCanvas.SetActive(false);
-        }
+
+        public void InvokeButtonAction() =>
+            _buttonAction?.Invoke();
     }
 }

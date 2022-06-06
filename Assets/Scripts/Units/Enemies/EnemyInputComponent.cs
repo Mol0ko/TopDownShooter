@@ -14,8 +14,8 @@ namespace TopDownShooter.Units.Player
         #region Config
 
         private AttackType _attackType = AttackType.Shoot;
-        private float _seekRadius = 10f;
-        private float _attackDelaySeconds = 1f;
+        private float _seekRadius = 12f;
+        private float _attackDelaySeconds = 0.85f;
         private float _reaction = 10f;
         private float _idleTimeSeconds = 5f;
 
@@ -55,7 +55,7 @@ namespace TopDownShooter.Units.Player
         private void OnDrawGizmos()
         {
             // seek radius
-            var radius = 10f;
+            var radius = 12f;
             Handles.color = Color.red;
             Handles.DrawWireDisc(transform.position, transform.up, radius);
             // rout points

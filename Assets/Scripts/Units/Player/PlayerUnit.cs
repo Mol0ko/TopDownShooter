@@ -25,18 +25,12 @@ namespace TopDownShooter.Units
 
         private void GetSafeLoot(SafeLoot loot)
         {
-            if (loot.Coins > 0)
-                GameManager.Instance.OnGetCoins(loot.Coins);
-
             if (loot.HpRegen > 0)
-                Stats.HpCurrent = Mathf.Max(
+            {
+                Stats.HpCurrent = Mathf.Min(
                     Stats.HpCurrent + loot.HpRegen,
                     Stats.HpFull);
-
-            if (loot.WeaponNames.Length > 0)
-            {
-                // TODO: add weapons to collection
-                Debug.Log($"Weapons obtained: {string.Join(", ", loot.WeaponNames)}");
+                HpBar.SetFillAmount(HpFillAmount);
             }
         }
     }

@@ -12,7 +12,7 @@ namespace TopDownShooter.Units
         [SerializeField, ReadOnly]
         protected UnitStats Stats;
         [SerializeField]
-        private HpBar _hpBar;
+        protected HpBar HpBar;
         [SerializeField]
         private Transform _gunMuzzle;
         [SerializeField]
@@ -25,7 +25,7 @@ namespace TopDownShooter.Units
 
         protected bool _isDead => Stats.HpCurrent <= 0;
 
-        private float _hpFillAmount => Stats.HpCurrent / Stats.HpFull;
+        protected float HpFillAmount => Stats.HpCurrent / Stats.HpFull;
 
         #region Lifecycle
 
@@ -70,7 +70,7 @@ namespace TopDownShooter.Units
             {
                 var bullet = other.gameObject.GetComponent<BulletComponent>();
                 Stats.HpCurrent -= bullet.Damage;
-                _hpBar.SetFillAmount(_hpFillAmount);
+                HpBar.SetFillAmount(HpFillAmount);
                 if (_isDead)
                 {
                     OnDeath();

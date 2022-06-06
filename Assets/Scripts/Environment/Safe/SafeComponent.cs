@@ -25,8 +25,6 @@ namespace TopDownShooter.Environment
                 _shineMaterial.color.b,
                 0f
             );
-            GameManager.Instance.OnSafeOpen();
-            DialogManager.Instance.ShowSafeLootDialog(_loot);
             return _loot;
         }
 
