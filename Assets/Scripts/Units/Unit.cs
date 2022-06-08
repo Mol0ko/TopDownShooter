@@ -106,11 +106,14 @@ namespace TopDownShooter.Units
                 var animationName = attackType.ToString();
                 _animator.SetTrigger(animationName);
             }
-            var bullet = Instantiate(_bulletPrefab, _gunMuzzle.position, _gunMuzzle.rotation);
-            bullet.Damage = Weapon.Damage;
-            _bullets.Enqueue(bullet.gameObject);
-            if (_bullets.Count > 50)
-                Destroy(_bullets.Dequeue());
+            if (attackType == AttackType.Shoot)
+            {
+                var bullet = Instantiate(_bulletPrefab, _gunMuzzle.position, _gunMuzzle.rotation);
+                bullet.Damage = Weapon.Damage;
+                _bullets.Enqueue(bullet.gameObject);
+                if (_bullets.Count > 50)
+                    Destroy(_bullets.Dequeue());
+            }
         }
 
         private void OnDeath()

@@ -1,4 +1,5 @@
 using System.Collections;
+using TopDownShooter.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,14 +11,10 @@ namespace TopDownShooter.Units.Player
         private Transform _target;
         [SerializeField]
         private Transform[] _routePoints = new Transform[0];
-
-        #region Config
-
-        private AttackType _attackType = AttackType.Shoot;
-        private float _seekRadius = 12f;
-        private float _attackDelaySeconds = 0.85f;
-        private float _reaction = 10f;
-        private float _idleTimeSeconds = 5f;
+        [SerializeField]
+        private EnemyParametersPreset _parametersPreset;
+        [SerializeField, ReadOnly]
+        private EnemyParameters _parameters;
 
         private bool _isTargetCaught
         {
@@ -30,15 +27,23 @@ namespace TopDownShooter.Units.Player
                         transform.position,
                         _target.transform.position
                     );
-                    result = distanceToPlayer <= _seekRadius;
+                    result = distanceToPlayer <= _parameters.SeekRadius;
                 }
                 return result;
             }
         }
 
-        #endregion
-
         #region Lifecycle
+
+        private void Awake()
+        {
+            _parameters = new EnemyParameters(_parametersPreset);
+        }
+
+        private void OnValidate()
+        {
+            _parameters = new EnemyParameters(_parametersPreset);
+        }
 
         private void Start()
         {
@@ -74,7 +79,7 @@ namespace TopDownShooter.Units.Player
             if (_isTargetCaught)
             {
                 var rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _reaction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _parameters.Reaction);
             }
         }
 
@@ -84,8 +89,8 @@ namespace TopDownShooter.Units.Player
             {
                 if (_isTargetCaught)
                 {
-                    yield return new WaitForSeconds(_attackDelaySeconds);
-                    CallOnAttackEvent(_attackType);
+                    yield return new WaitForSeconds(_parameters.AttackDelaySeconds);
+                    CallOnAttackEvent(_parameters.AttackType);
                 }
                 else
                     yield return null;
@@ -111,7 +116,7 @@ namespace TopDownShooter.Units.Player
                     {
                         Movement = Vector3.zero;
                         routePointIndex++;
-                        yield return new WaitForSeconds(_idleTimeSeconds);
+                        yield return new WaitForSeconds(_parameters.IdleTimeSeconds);
                     }
                     else
                     {
@@ -119,7 +124,7 @@ namespace TopDownShooter.Units.Player
                         var shouldRotateToPoint = Vector3.Distance(transform.rotation.eulerAngles, rotation.eulerAngles) > 2;
                         if (shouldRotateToPoint)
                         {
-                            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _reaction);
+                            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _parameters.Reaction);
                             yield return null;
                         }
                         else

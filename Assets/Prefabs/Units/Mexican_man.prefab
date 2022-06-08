@@ -1879,6 +1879,13 @@ MonoBehaviour:
   _routePoints:
   - {fileID: 0}
   - {fileID: 0}
+  _parametersPreset: {fileID: 11400000, guid: d1ffffd1730d04f9f9807e6c2fb49131, type: 2}
+  _parameters:
+    AttackType: 0
+    SeekRadius: 12
+    AttackDelaySeconds: 0.85
+    Reaction: 10
+    IdleTimeSeconds: 5
 --- !u!1 &6663790523185784845
 GameObject:
   m_ObjectHideFlags: 0
