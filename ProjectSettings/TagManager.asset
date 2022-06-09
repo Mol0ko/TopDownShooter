@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - Coin
   - Safe
+  - Knife
   layers:
   - Default
   - TransparentFX

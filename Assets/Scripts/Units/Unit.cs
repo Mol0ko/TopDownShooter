@@ -66,16 +66,29 @@ namespace TopDownShooter.Units
         protected void OnTriggerEnter(Collider other)
         {
             Debug.Log("[TRIGGER] " + gameObject.name + " triggered with " + other.gameObject.name);
-            if (other.gameObject.tag == "Bullet" && !_isDead)
+            if (!_isDead)
             {
-                var bullet = other.gameObject.GetComponent<BulletComponent>();
-                Stats.HpCurrent -= bullet.Damage;
-                HpBar.SetFillAmount(HpFillAmount);
-                if (_isDead)
+                var damage = 0f;
+                if (other.gameObject.tag == "Bullet")
                 {
-                    OnDeath();
-                    if (Stats.Side == Side.Enemy)
-                        GameManager.Instance.OnKillEnemy();
+                    var bullet = other.gameObject.GetComponent<BulletComponent>();
+                    damage = bullet.Damage;
+                }
+                else if (other.gameObject.tag == "Knife")
+                {
+                    var knife = other.gameObject.GetComponent<Knife>();
+                    damage = knife.Damage;
+                }
+                if (damage > 0)
+                {
+                    Stats.HpCurrent -= damage;
+                    HpBar.SetFillAmount(HpFillAmount);
+                    if (_isDead)
+                    {
+                        OnDeath();
+                        if (Stats.Side == Side.Enemy)
+                            GameManager.Instance.OnKillEnemy();
+                    }
                 }
             }
         }

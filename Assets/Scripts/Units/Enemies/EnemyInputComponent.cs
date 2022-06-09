@@ -48,7 +48,7 @@ namespace TopDownShooter.Units.Player
         private void Start()
         {
             StartCoroutine(RouteMovingRoutine());
-            StartCoroutine(ShootRoutine());
+            StartCoroutine(AttackRoutine());
         }
 
         private void Update()
@@ -83,14 +83,20 @@ namespace TopDownShooter.Units.Player
             }
         }
 
-        private IEnumerator ShootRoutine()
+        private IEnumerator AttackRoutine()
         {
             while (true)
             {
-                if (_isTargetCaught)
+                var distanceToTarget = Vector3.Distance(transform.position, _target.position);
+                if (_isTargetCaught &&
+                    (_parameters.AttackType == AttackType.Shoot ||
+                        (_parameters.AttackType == AttackType.Hit && distanceToTarget < 1.2f)))
                 {
-                    yield return new WaitForSeconds(_parameters.AttackDelaySeconds);
+                    if (_parameters.AttackType == AttackType.Shoot)
+                        yield return new WaitForSeconds(_parameters.AttackDelaySeconds);
                     CallOnAttackEvent(_parameters.AttackType);
+                    if (_parameters.AttackType == AttackType.Hit)
+                        yield return new WaitForSeconds(_parameters.AttackDelaySeconds);
                 }
                 else
                     yield return null;
@@ -102,7 +108,7 @@ namespace TopDownShooter.Units.Player
             var routePointIndex = 0;
             while (true)
             {
-                if (_isTargetCaught)
+                if (_parameters.AttackType == AttackType.Shoot && _isTargetCaught)
                 {
                     Movement = Vector3.zero;
                     yield return null;
@@ -110,9 +116,20 @@ namespace TopDownShooter.Units.Player
                 else
                 {
                     var currentIndex = routePointIndex % _routePoints.Length;
-                    var destinationPoint = _routePoints[currentIndex];
+                    Transform destinationPoint;
+                    if (_parameters.AttackType == AttackType.Hit && _isTargetCaught)
+                        destinationPoint = _target;
+                    else
+                        destinationPoint = _routePoints[currentIndex];
+
                     var distanceToPoint = Vector3.Distance(transform.position, destinationPoint.position);
-                    if (distanceToPoint < 0.5f)
+
+                    if (_parameters.AttackType == AttackType.Hit && _isTargetCaught && distanceToPoint < 1f)
+                    {
+                        Movement = Vector3.zero;
+                        yield return null;
+                    }
+                    else if (distanceToPoint < 0.5f)
                     {
                         Movement = Vector3.zero;
                         routePointIndex++;

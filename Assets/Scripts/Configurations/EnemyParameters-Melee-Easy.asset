@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyParameters-Melee-Easy
   m_EditorClassIdentifier: 
   AttackType: 1
-  SeekRadius: 12
-  AttackDelaySeconds: 2
-  Reaction: 10
-  IdleTimeSeconds: 5
+  SeekRadius: 10
+  AttackDelaySeconds: 1.2
+  Reaction: 30
+  IdleTimeSeconds: 3

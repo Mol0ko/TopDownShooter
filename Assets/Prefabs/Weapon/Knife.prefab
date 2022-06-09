@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9151059253747878195}
   - component: {fileID: 5282947201964607126}
-  - component: {fileID: 7977065936755520092}
+  - component: {fileID: 8595892377410711851}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -40,8 +40,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8481623096078488457}
   m_Mesh: {fileID: 7140310932927473051, guid: 04250896bb63a4deab330cdf9f75e36c, type: 3}
---- !u!23 &7977065936755520092
-MeshRenderer:
+--- !u!137 &8595892377410711851
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -54,7 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,3 +79,15 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 7140310932927473051, guid: 04250896bb63a4deab330cdf9f75e36c, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 0, y: 0.00000020489097, z: 0}
+    m_Extent: {x: 0.03127108, y: 0.109442204, z: 0.4}
+  m_DirtyAABB: 0
