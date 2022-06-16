@@ -11731,7 +11731,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _loot
       value: 
-      objectReference: {fileID: 11400000, guid: cccf3a6387e51437a96bfebbf49a2f49,
+      objectReference: {fileID: 11400000, guid: 154380647db084b57a2cbb63553257c0,
         type: 2}
     - target: {fileID: 4866883547638366914, guid: f0082cc99f2a4449ba8e2d6c58e2deb4,
         type: 3}
