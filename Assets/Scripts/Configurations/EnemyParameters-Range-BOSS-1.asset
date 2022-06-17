@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyParameters-Range-BOSS-1
   m_EditorClassIdentifier: 
   AttackType: 0
-  SeekRadius: 14
-  AttackDelaySeconds: 0.6
-  Reaction: 8
+  SeekRadius: 15
+  AttackDelaySeconds: 0.5
+  Reaction: 10
   IdleTimeSeconds: 4

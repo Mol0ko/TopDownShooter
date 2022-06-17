@@ -1827,6 +1827,7 @@ MonoBehaviour:
   _gunMuzzle: {fileID: 7187135464659722679}
   _bulletPrefab: {fileID: 4022399903765016788, guid: 988362fa064f44cdc8ad56c680309c1f,
     type: 3}
+  _weaponName: Rifle1
   _safeGame: {fileID: 0}
 --- !u!1 &5095513868092162693
 GameObject:

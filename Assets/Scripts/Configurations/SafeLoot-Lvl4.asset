@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae7a8b1e3f62c49b68ec1a5d4d067b19, type: 3}
-  m_Name: SafeLoot-Lvl3
+  m_Name: SafeLoot-Lvl4
   m_EditorClassIdentifier: 
-  Coins: 5
-  HpRegen: 10
-  WeaponNames: []
+  Coins: 2
+  HpRegen: 5
+  WeaponNames:
+  - Rifle3

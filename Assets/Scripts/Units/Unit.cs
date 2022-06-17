@@ -17,6 +17,8 @@ namespace TopDownShooter.Units
         private Transform _gunMuzzle;
         [SerializeField]
         private BulletComponent _bulletPrefab;
+        [SerializeField]
+        private string _weaponName;
 
         protected IWeapon Weapon = new Rifle1();
         private Animator _animator;
@@ -41,6 +43,23 @@ namespace TopDownShooter.Units
 
         protected virtual void Start()
         {
+            switch (_weaponName)
+            {
+                case "Knife":
+                    Weapon = new Knife();
+                    break;
+                case "Rifle1":
+                    Weapon = new Rifle1();
+                    break;
+                case "Rifle2":
+                    Weapon = new Rifle2();
+                    break;
+                case "Rifle3":
+                    Weapon = new Rifle3();
+                    break;
+                default:
+                    break;
+            };
             _animator = this.FindComponent<Animator>();
             _input = this.FindComponent<UnitInputComponent>();
 

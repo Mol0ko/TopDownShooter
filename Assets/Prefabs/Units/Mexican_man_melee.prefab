@@ -1832,6 +1832,7 @@ MonoBehaviour:
   _gunMuzzle: {fileID: 0}
   _bulletPrefab: {fileID: 4022399903765016788, guid: 988362fa064f44cdc8ad56c680309c1f,
     type: 3}
+  _weaponName: Knife
 --- !u!114 &3559013335604376787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,10 +1852,10 @@ MonoBehaviour:
   _parametersPreset: {fileID: 11400000, guid: 5cccbe11747bd4410a535b19bdc5cc19, type: 2}
   _parameters:
     AttackType: 1
-    SeekRadius: 12
-    AttackDelaySeconds: 2
-    Reaction: 10
-    IdleTimeSeconds: 5
+    SeekRadius: 10
+    AttackDelaySeconds: 1.2
+    Reaction: 30
+    IdleTimeSeconds: 3
 --- !u!1 &6663790523185784845
 GameObject:
   m_ObjectHideFlags: 0
