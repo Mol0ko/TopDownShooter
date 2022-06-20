@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91fc10825769f4d17a3c85d4431068a4, type: 3}
-  m_Name: EnemyStats-BOSS-1
+  m_Script: {fileID: 11500000, guid: af9e29803f5c647c89b6cd90c4fe5f32, type: 3}
+  m_Name: EnemyParameters-Range-Hard
   m_EditorClassIdentifier: 
-  MoveSpeed: 3
-  Side: 1
-  Hp: 30
+  AttackType: 0
+  SeekRadius: 13
+  AttackDelaySeconds: 0.7
+  Reaction: 12
+  IdleTimeSeconds: 4

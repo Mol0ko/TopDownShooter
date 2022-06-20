@@ -4000,7 +4000,7 @@ MonoBehaviour:
   _coinsCollectedOnLevel: 0
   _safesOpenedOnLevel: 0
   _enemiesKilledOnLevel: 0
-  _enemiesToKillOnLevel: 0500000006000000030000000700000000000000
+  _enemiesToKillOnLevel: 050000000700000003000000070000000b000000
   _levelSceneNames:
   - Level-1
   - Level-2

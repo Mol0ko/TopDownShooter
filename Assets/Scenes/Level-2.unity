@@ -1771,6 +1771,48 @@ PrefabInstance:
       propertyPath: _routePoints.Array.data[3]
       value: 
       objectReference: {fileID: 632001929}
+    - target: {fileID: 3559013335604376787, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: _parametersPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f3b96b8c02f04732ba10c7943835e64,
+        type: 2}
+    - target: {fileID: 3559013335604376787, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: _parameters.SeekRadius
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: _parameters.AttackDelaySeconds
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: _parameters.Reaction
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: _statsPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f9e8fc6771b644f5918a67b14dd8087,
+        type: 2}
+    - target: {fileID: 5340949503363226823, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: Stats.MoveSpeed
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: Stats.HpFull
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: b6ee6860d25a0439398a803d8ef486d3,
+        type: 3}
+      propertyPath: Stats.HpCurrent
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6648224456982617192, guid: b6ee6860d25a0439398a803d8ef486d3,
         type: 3}
       propertyPath: m_Name
@@ -3994,6 +4036,53 @@ PrefabInstance:
       propertyPath: _routePoints.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parametersPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 19e65020d64db4a438f0b0ed9a9c0157,
+        type: 2}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.SeekRadius
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.AttackDelaySeconds
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.Reaction
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.IdleTimeSeconds
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _statsPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f9e8fc6771b644f5918a67b14dd8087,
+        type: 2}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.MoveSpeed
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.HpFull
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.HpCurrent
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6648224456982617192, guid: 36140a70e2cb64aebac46cfd72e62ed3,
         type: 3}
       propertyPath: m_Name
@@ -6060,6 +6149,53 @@ PrefabInstance:
       propertyPath: _routePoints.Array.data[1]
       value: 
       objectReference: {fileID: 247870330}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parametersPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 19e65020d64db4a438f0b0ed9a9c0157,
+        type: 2}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.SeekRadius
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.AttackDelaySeconds
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.Reaction
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559013335604376787, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _parameters.IdleTimeSeconds
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: _statsPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f9e8fc6771b644f5918a67b14dd8087,
+        type: 2}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.MoveSpeed
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.HpFull
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340949503363226823, guid: 36140a70e2cb64aebac46cfd72e62ed3,
+        type: 3}
+      propertyPath: Stats.HpCurrent
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6648224456982617192, guid: 36140a70e2cb64aebac46cfd72e62ed3,
         type: 3}
       propertyPath: m_Name
