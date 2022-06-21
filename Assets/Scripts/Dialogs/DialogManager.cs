@@ -31,10 +31,12 @@ namespace TopDonShooter.Dialogs
         private void Awake()
         {
             if (_instance != null)
-                Destroy(_instance.gameObject);
-
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+                Destroy(this.gameObject);
+            else
+            {
+                _instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
         }
 
         public void ShowDialog(DialogData data)

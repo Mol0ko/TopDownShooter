@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using TopDonShooter.Dialogs;
 using TopDownShooter.Environment;
 using TopDownShooter.Extensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace TopDownShooter
 {
@@ -32,6 +34,13 @@ namespace TopDownShooter
         private string[] _levelSceneNames;
         [SerializeField]
         private Sprite[] _welcomeTourSprites;
+        [SerializeField]
+        private Text _coinsCounter;
+
+        private string[] _newWeaponsOnLevel;
+        private List<string> _weaponsCollection = new List<string>() {
+            "Rifle1"
+        };
 
         //endregion
 
@@ -41,13 +50,15 @@ namespace TopDownShooter
         {
             PlayerPrefs.DeleteAll();
             if (_instance != null)
-                Destroy(_instance.gameObject);
-
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-
-            _currentLevel = PlayerPrefs.GetInt(PlayerPrefsKeys.CURRENT_LEVEL);
-            _totalCoins = PlayerPrefs.GetInt(PlayerPrefsKeys.TOTAL_COINS_COUNT);
+                Destroy(this.gameObject);
+            else
+            {
+                _instance = this;
+                DontDestroyOnLoad(this.gameObject);
+                _currentLevel = PlayerPrefs.GetInt(PlayerPrefsKeys.CURRENT_LEVEL);
+                _totalCoins = PlayerPrefs.GetInt(PlayerPrefsKeys.TOTAL_COINS_COUNT);
+                _coinsCounter.text = _totalCoins.ToString();
+            }
         }
 
         private void Start()
@@ -65,9 +76,37 @@ namespace TopDownShooter
         public void OnGetCoins(int count)
         {
             _totalCoins += count;
+            _coinsCounter.text = _totalCoins.ToString();
             PlayerPrefs.SetInt(PlayerPrefsKeys.TOTAL_COINS_COUNT, _totalCoins);
             PlayerPrefs.Save();
             _coinsCollectedOnLevel += count;
+        }
+
+        public void OnPlayerDead()
+        {
+            var message = $"• Врагов убито: {_enemiesKilledOnLevel}\n" +
+                $"• Монет собрано: {_coinsCollectedOnLevel}\n" +
+                $"• Вскрыто сейфов: {_safesOpenedOnLevel}\n";
+            var dialogData = new DialogData(
+                "Потрачено",
+                message,
+                null,
+                "Начать заново",
+                () =>
+                {
+                    _totalCoins -= _coinsCollectedOnLevel;
+                    _coinsCollectedOnLevel = 0;
+                    _safesOpenedOnLevel = 0;
+                    _enemiesKilledOnLevel = 0;
+                    _coinsCounter.text = _totalCoins.ToString();
+                    _newWeaponsOnLevel = null;
+                    SceneManager.LoadScene(
+                        _levelSceneNames[_currentLevel]
+                    );
+                    DialogManager.Instance.CloseCurrentDialog();
+                },
+                false);
+            DialogManager.Instance.ShowDialog(dialogData);
         }
 
         public void OnKillEnemy()
@@ -84,8 +123,8 @@ namespace TopDownShooter
 
             if (loot.WeaponNames.Length > 0)
             {
-                // TODO: add weapons to collection
                 Debug.Log($"Weapons obtained: {string.Join(", ", loot.WeaponNames)}");
+                _newWeaponsOnLevel = loot.WeaponNames;
             }
         }
 
@@ -159,10 +198,14 @@ namespace TopDownShooter
         {
             DialogManager.Instance.CloseCurrentDialog();
             Debug.Log($"Level {_currentLevel} completed!");
-            if (_currentLevel >= _gameLevelsCount)
+            if (_currentLevel + 1 >= _gameLevelsCount)
                 ShowGameCompletedDialog();
             else
             {
+                if (_newWeaponsOnLevel != null) {
+                    _weaponsCollection.AddRange(_newWeaponsOnLevel);
+                    // TODO: add weapon selection
+                }
                 _currentLevel++;
                 _coinsCollectedOnLevel = 0;
                 _enemiesKilledOnLevel = 0;

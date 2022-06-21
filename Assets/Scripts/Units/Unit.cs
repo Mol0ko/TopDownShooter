@@ -107,6 +107,9 @@ namespace TopDownShooter.Units
                         OnDeath();
                         if (Stats.Side == Side.Enemy)
                             GameManager.Instance.OnKillEnemy();
+                        else if (Stats.Side == Side.Friend)
+                            GameManager.Instance.OnPlayerDead();
+
                     }
                 }
             }
