@@ -1,4 +1,5 @@
 using TopDownShooter.Environment;
+using TopDownShooter.Weapons;
 using UnityEngine;
 
 namespace TopDownShooter.Units
@@ -7,6 +8,12 @@ namespace TopDownShooter.Units
     {
         [SerializeField]
         private SafeOpenGame _safeGame;
+
+        protected override void Start()
+        {
+            _weaponName = GameManager.Instance.SelectedWeapon;
+            base.Start();
+        }
 
         protected new void OnTriggerEnter(Collider other)
         {

@@ -41,6 +41,7 @@ namespace TopDownShooter
         private List<string> _weaponsCollection = new List<string>() {
             "Rifle1"
         };
+        public string SelectedWeapon { get; private set; } = "Rifle1";
 
         //endregion
 
@@ -202,19 +203,31 @@ namespace TopDownShooter
                 ShowGameCompletedDialog();
             else
             {
-                if (_newWeaponsOnLevel != null) {
-                    _weaponsCollection.AddRange(_newWeaponsOnLevel);
-                    // TODO: add weapon selection
+                void PrepareNextLevel()
+                {
+                    _currentLevel++;
+                    _coinsCollectedOnLevel = 0;
+                    _enemiesKilledOnLevel = 0;
+                    _safesOpenedOnLevel = 0;
+                    SceneManager.LoadScene(
+                        _levelSceneNames[_currentLevel]
+                    );
                 }
-                _currentLevel++;
-                _coinsCollectedOnLevel = 0;
-                _enemiesKilledOnLevel = 0;
-                _safesOpenedOnLevel = 0;
-                SceneManager.LoadScene(
-                    _levelSceneNames[_currentLevel]
-                );
+                if (_newWeaponsOnLevel != null)
+                    _weaponsCollection.AddRange(_newWeaponsOnLevel);
+                    
+                if (_weaponsCollection.Count > 1)
+                    DialogManager.Instance.ShowWeaponSelectionDialog(
+                        _weaponsCollection.ToArray(),
+                        SelectedWeapon,
+                        (weapon) =>
+                        {
+                            SelectedWeapon = weapon;
+                            PrepareNextLevel();
+                        }
+                    );
+                else PrepareNextLevel();
             }
-            // TODO: go to next level
         }
 
         private void ShowGameCompletedDialog()

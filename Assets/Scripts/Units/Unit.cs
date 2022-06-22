@@ -18,7 +18,7 @@ namespace TopDownShooter.Units
         [SerializeField]
         private BulletComponent _bulletPrefab;
         [SerializeField]
-        private string _weaponName;
+        protected string _weaponName;
 
         protected IWeapon Weapon = new Rifle1();
         private Animator _animator;

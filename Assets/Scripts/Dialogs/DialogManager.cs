@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using TopDownShooter.Environment;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,6 +21,10 @@ namespace TopDonShooter.Dialogs
         private Text _message;
         [SerializeField]
         private Image _image;
+        [SerializeField]
+        private ToggleGroup _weaponSelector;
+        [SerializeField]
+        private Toggle[] _weaponTogglePool;
         [SerializeField]
         private Text _actionButtonTitle;
         [SerializeField]
@@ -68,6 +74,41 @@ namespace TopDonShooter.Dialogs
                 null,
                 "ОК",
                 CloseCurrentDialog);
+            ShowDialog(dialogData);
+        }
+
+        public void ShowWeaponSelectionDialog(
+            string[] weapons,
+            string currentWeapon,
+            UnityAction<string> onSelectWeapon)
+        {
+            _weaponSelector.gameObject.SetActive(true);
+            foreach (var toggle in _weaponTogglePool)
+                toggle.gameObject.SetActive(false);
+            for (var i = 0; i < weapons.Length; i++)
+            {
+                _weaponTogglePool[i].gameObject.SetActive(true);
+                _weaponTogglePool[i].isOn = weapons[i] == currentWeapon;
+                _weaponTogglePool[i].GetComponentInChildren<Text>().text = weapons[i];
+            }
+            var dialogData = new DialogData(
+                "Выбор оружия",
+                "",
+                null,
+                "ОК",
+                () =>
+                {
+                    var selectedToggle = _weaponTogglePool.FirstOrDefault(toggle => toggle.isOn);
+                    if (selectedToggle != null)
+                    {
+                        var selectedWeaponIndex = Array.IndexOf(_weaponTogglePool, selectedToggle);
+                        var selectedWeapon = weapons[selectedWeaponIndex];
+                        onSelectWeapon.Invoke(selectedWeapon);
+                        _weaponSelector.gameObject.SetActive(false);
+                    }
+                    CloseCurrentDialog();
+                },
+                false);
             ShowDialog(dialogData);
         }
 
