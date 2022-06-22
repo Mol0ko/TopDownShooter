@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace TopDownShooter.Extensions
 
     }
 
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyDrawer : PropertyDrawer
     {
@@ -27,4 +27,5 @@ namespace TopDownShooter.Extensions
             GUI.enabled = true;
         }
     }
+#endif
 }

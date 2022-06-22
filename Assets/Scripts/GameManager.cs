@@ -213,9 +213,11 @@ namespace TopDownShooter
                         _levelSceneNames[_currentLevel]
                     );
                 }
-                if (_newWeaponsOnLevel != null)
+                if (_newWeaponsOnLevel != null) {
                     _weaponsCollection.AddRange(_newWeaponsOnLevel);
-                    
+                    _newWeaponsOnLevel = null;
+                }
+
                 if (_weaponsCollection.Count > 1)
                     DialogManager.Instance.ShowWeaponSelectionDialog(
                         _weaponsCollection.ToArray(),
