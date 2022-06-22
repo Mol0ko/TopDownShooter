@@ -1,2 +1,2 @@
 # TopDownShooter
-Unity game
+Игра на Unity в жанре top down shooter
